@@ -1,0 +1,59 @@
+name: UniFi Refresh
+run-name: Refresh unifi_${{ github.event.inputs.refreshType }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      refreshType:
+        type: choice
+        description: 'Select the type of refresh'
+        options:
+          - 'all'
+          - 'accounts'
+          - 'ap_groups'
+          - 'devices'
+          - 'dynamic_dns'
+          - 'firewall_groups'
+          - 'firewall_rules'
+          - 'networks'
+          - 'port_forward'
+          - 'port_profiles'
+          - 'radius_profiles'
+          - 'settings'
+          - 'sites'
+          - 'static_routes'
+          - 'user_groups'
+          - 'users'
+          - 'wlans'
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh_unifi:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4.1.1
+
+    - name: Run refresh script
+      run: |
+        ./scripts/get_${{ github.event.inputs.refreshType }}.sh -i ${{ secrets.UNIFI_URL }} -u ${{ secrets.UNIFI_USER }} -p ${{ secrets.UNIFI_PASSWORD }}
+        ./scripts/generate_unifi_${{ github.event.inputs.refreshType }}.sh
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5.0.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "Update unifi_${{ github.event.inputs.refreshType }}"
+        title: "[AUTO] Update unifi_${{ github.event.inputs.refreshType }}"
+        body: 'Automated pull request to update unifi_${{ github.event.inputs.refreshType }}'
+        branch: 'update_unifi_${{ github.event.inputs.refreshType }}-${{ github.run_id }}'
+        base: 'main' # or the branch you want to merge into
+        delete-branch: true

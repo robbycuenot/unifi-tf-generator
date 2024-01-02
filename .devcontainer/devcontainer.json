@@ -1,0 +1,16 @@
+{
+    "name": "unifi-management",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "HashiCorp.terraform"
+            ]
+        }
+    }
+}
