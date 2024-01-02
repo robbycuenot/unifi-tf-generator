@@ -1,0 +1,53 @@
+# Use the latest Ubuntu LTS as base image
+FROM ubuntu:latest
+
+# Set environment variables to avoid user interaction during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
+    sudo \
+    git \
+    ca-certificates \
+    libicu-dev \
+    jq \
+    locales \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the locale to one that supports UTF-8
+RUN locale-gen en_US.UTF-8
+
+# Set environment variables for the locale
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8
+
+# Create a user for the GitHub runner
+RUN useradd -m runner
+
+# Set working directory
+WORKDIR /home/runner
+
+# Download the latest GitHub Actions runner package
+RUN curl -o actions-runner-linux-x64-2.311.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.311.0/actions-runner-linux-x64-2.311.0.tar.gz
+
+# Extract the installer
+RUN tar xzf ./actions-runner-linux-x64-2.311.0.tar.gz
+
+# Give the runner user permission to the runner directory
+RUN chown -R runner:runner .
+
+# Copy the entrypoint script
+COPY entrypoint.sh /home/runner/entrypoint.sh
+RUN chmod +x /home/runner/entrypoint.sh
+
+# Run the installdependencies.sh script to install .NET Core dependencies
+RUN ./bin/installdependencies.sh
+
+# Switch to the runner user
+USER runner
+
+# Set the entrypoint
+ENTRYPOINT ["/home/runner/entrypoint.sh"]

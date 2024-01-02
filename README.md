@@ -3,6 +3,77 @@
 ## Overview
 This repository facilitates the creation of a complete Terraform configuration for managing Ubiquiti UniFi environments. It leverages bash, jq, and curl to automate the extraction, manipulation, and generation of Terraform configurations specific to UniFi devices and settings.
 
+## Getting Started
+
+### Prerequisites
+- A functioning Ubiquiti UniFi setup. Tested with UDM Pro, but should work for other controllers.
+- Basic understanding of bash, jq, and curl.
+- A linux environment with:
+    - connectivity to the local Unifi controller endpoint
+    - local unifi user account with `admin` access
+        - NOTE: `viewer` access will allow creation of some resources, but will be unable to
+                access any sensitive fields such as controller SSH settings or radius auth settings.
+                Results may be inconsistent. For the moment, consider this unsupported.
+    - bash
+    - curl
+    - jq
+        - For Ubuntu, this can be achieved with the following script:
+          ```
+          apt-get install -y jq
+          ```
+    - utf-8 english language support (necessary for parsing some special characters)
+        - For Ubuntu, this can be achieved with the following script:
+          ```
+          apt-get install -y locales
+          locale-gen en_US.UTF-8
+          LANG=en_US.UTF-8
+          LANGUAGE=en_US:en
+          LC_ALL=en_US.UTF-8
+          ```
+
+### Installation and Setup
+
+#### GitHub Codespaces (Recommended)
+
+1. Install the GitHub CLI: https://cli.github.com/
+1. Install the Codespaces Network Bridge: https://github.com/github/gh-net
+1. Fork this repository
+1. Set three codespace secrets:
+    1. SECRET_UNIFI_IP
+        - Example Value: 192.168.1.1
+    1. SECRET_UNIFI_USER
+        - Example Value: terraform-generator
+    1. SECRET_UNIFI_PASSWORD
+        - Example Value: YoUrSuP3rS3cRetP@ssW0rd
+1. Launch the codespace
+1. In a local terminal, execute `gh net` and connect to your codespace
+1. In the codespace, execute:
+    `./scripts/all.sh`
+1. All terraform code will be generated at the root level of the repository
+
+#### Local Execution
+
+1. Clone the repository.
+1. Execute `./scripts/all.sh -i $YOURIP -u $YOURUSER -p $YOURPASSWORD`
+    - Alternatively, set the environment variables `SECRET_UNIFI_IP` `SECRET_UNIFI_USER` and `SECRET_UNIFI_PASSWORD` and run `./scripts/all.sh`
+1. All terraform code will be generated at the root level of the repository
+
+#### GitHub Actions
+
+1. Create a github self-hosted runner, with the capabilities listed in Actions_Dockerfile, on your home network
+1. A prebuilt image is available at docker.io/robbycuenot/gh-runner-ubuntu:latest, built from that file
+1. Launch that container with the following environment variables:
+    - RUNNER_TOKEN=YOURGHRUNNERTOKEN
+    - REPO_URL=https://github.com/youraccountororganizationname
+    - RUNNER_NAME=gh-runner-ubuntu
+    - RUNNER_WORKDIR=_work
+    - **NOTE:** You may want to configure persistent volumes, otherwise you will have to re-register the container
+      every time it restarts. I've tried to lay the groundwork for mounting /home/runner, however podman permissions
+      for volumes are frustrating as hell and I've not been able to get it working. PRs welcome if you have a fix.
+1. Verify that your container has started and successfully registered with GitHub
+1. Under repository settings, check `Allow GitHub Actions to create and approve pull requests`.
+1. Invoke the `Unifi Refresh` workflow, selecting `all` to generate code for the entire Unifi network.
+
 ## Repository Structure
 
 ### `/scripts`
@@ -16,30 +87,9 @@ This directory is the heart of the repository, containing a suite of bash script
 - `/.devcontainer`: Contains container configurations for codespaces.
 - `/.github/workflows`: GitHub Actions workflow for generating TF code / PRs.
 - `/json`: Folder for normalized json data. Raw responses are in `/json/raw`. Json files themselves are excluded from commits via `.gitignore`.
-- `/providers.tf`: Terraform provider setup.
+- `/log.txt`: Logs generated at runtime. Excluded via `.gitignore`.
+- `/providers.tf`: Terraform provider setup. Substitute organization and workspace name as needed for Terraform Cloud
 - `/README.md`: This README file.
 
-## Getting Started
-
-### Prerequisites
-- A functioning Ubiquiti UniFi setup.
-- Basic understanding of bash, jq, and curl.
-- Terraform installed on your system.
-
-### Installation and Setup
-1. Clone the repository.
-2. Ensure you have `bash`, `jq`, and `curl` installed on your system.
-3. Set up your UniFi Controller access credentials and other necessary configurations.
-
-### Usage
-- Run the appropriate scripts from the `/scripts` directory to fetch data from your UniFi Controller and generate Terraform configurations.
-- Use the generated Terraform configurations to manage your UniFi environment.
-
 ## Contributing
-Contributions are welcome! Please read the contributing guidelines for ways to help improve this project.
-
-## License
-This project is released under the [LICENSE NAME], see the LICENSE file for more details.
-
-## Contact
-For any queries or contributions, please contact [MAINTAINER'S CONTACT INFORMATION].
+Contributions are welcome! Will write contribution guidelines as this project progresses.
