@@ -76,7 +76,7 @@ main() {
         # Write the locals block by passing the associative array
         write_local resource_args
 
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
     # Write the footer for the locals block
     echo "}" >> unifi_ap_groups_map.tf

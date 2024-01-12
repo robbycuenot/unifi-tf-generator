@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Gather variables from all unifi_*.tf files
-vars=$(grep -h -o -E 'var\.[a-zA-Z0-9_]*' unifi_*.tf | sort | uniq | sed 's/var.//g')
+vars=$(grep -h -o -E 'var\.[a-zA-Z0-9_-]*' unifi_*.tf | sort | uniq | sed 's/var.//g')
 
 # Clear existing files or create them if they don't exist
 > variables.tf

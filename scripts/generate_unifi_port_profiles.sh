@@ -139,7 +139,7 @@ main() {
         write_import resource_args
         write_local resource_args
 
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
     # Close the locals block
     echo "}" >> unifi_port_profiles_map.tf

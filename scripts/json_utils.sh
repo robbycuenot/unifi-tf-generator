@@ -48,7 +48,7 @@ alphabetize_raw_json() {
 # Function to read and output JSON data
 read_json() {
     local file_name="$1"
-    # Get the type of JSON file (e.g. site, device, etc. from the file path, removing the 'json/' prefix and '.json' suffix)
+    local -n keys=$2
 
     log_debug_object_count "$file_name"
     
@@ -68,6 +68,8 @@ def parse(field):
         if field == "port_table" then
           .[field] | tojson
         elif field == "x_ssh_keys" then
+          .[field] | tojson
+        elif field == "schedule_with_duration" then
           .[field] | tojson
         elif field == "auth_servers" then
           .[field] | map([.ip, .port | tostring] | join(":")) | join(",")
@@ -89,7 +91,7 @@ EOF
         local jq_main_filter='.[] | ['
 
         # Iterate over the KEYS array, appending each key to the jq filter.
-        for key in "${KEYS[@]}"; do
+        for key in "${keys[@]}"; do
             jq_main_filter+="parse(\"$key\"), "
         done
 

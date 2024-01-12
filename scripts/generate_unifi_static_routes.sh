@@ -36,7 +36,7 @@ write_resource() {
         c_echo "static-route_type"                    "  type      = \"%s\""
         c_echo "static-route_distance"                "  distance  = %s"
         c_echo "static_route_interface_resource_name" "  interface = %s"
-        c_echo "static-route_nexthop"                "  next_hop  = \"%s\""
+        c_echo "static-route_nexthop"                 "  next_hop  = \"%s\""
         echo "}"
         echo ""
     } >> unifi_static_routes.tf
@@ -111,7 +111,7 @@ main() {
         # Write the locals block
         write_local resource_args
 
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
     # Close the locals block
     echo "}" >> unifi_static_routes_map.tf

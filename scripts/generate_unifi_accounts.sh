@@ -81,7 +81,7 @@ main() {
         # Write the locals block
         write_local resource_args
 
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
     # Write the footer for the locals block
     echo "}" >> unifi_accounts_map.tf

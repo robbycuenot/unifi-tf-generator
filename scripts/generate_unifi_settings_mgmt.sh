@@ -76,7 +76,7 @@ main() {
             write_resource resource_args
             write_import resource_args
         fi
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
 }
 

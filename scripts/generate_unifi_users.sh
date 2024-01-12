@@ -106,7 +106,7 @@ main() {
         write_resource resource_args
         write_import resource_args
         write_local resource_args
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
     echo "}" >> unifi_users_map.tf
 }

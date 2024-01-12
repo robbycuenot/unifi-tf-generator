@@ -100,7 +100,7 @@ main() {
         fi
         write_local resource_args
 
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
     echo "}" >> unifi_radius_profiles_map.tf
 }

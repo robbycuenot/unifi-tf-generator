@@ -9,14 +9,32 @@ source ./scripts/terraform_utils.sh
 readonly json_file_name="json/wlans.json"
 readonly KEYS=(
   "_id"
-  "name"
-  "security"
-  "usergroup_id"
-  "is_guest"
-  "site_id"
-  "networkconf_id"
   "ap_group_ids"
+  "bss_transition"
+  "fast_roaming_enabled"
+  "hide_ssid"
+  "is_guest"
+  "l2_isolation"
+  "mac_filter_enabled"
+  "mac_filter_list"
+  "mac_filter_policy"
+  "mcastenhance_enabled"
+  "minrate_na_data_rate_kbps"
+  "minrate_ng_data_rate_kbps"
+  "name"
+  "networkconf_id"
+  "no2ghz_oui"
+  "pmf_mode"
+  "proxy_arp"
   "radiusprofile_id"
+  "schedule_with_duration"
+  "security"
+  "site_id"
+  "uapsd_enabled"
+  "usergroup_id"
+  "wlan_band"
+  "wpa3_support"
+  "wpa3_transition"
 )
 
 write_resource() {
@@ -36,9 +54,30 @@ write_resource() {
         echo "  user_group_id = local.${user_group_id_to_name[${args[usergroup_id]}]}.id"
         echo "  is_guest = ${args[is_guest]}"
         echo "  network_id = local.${network_id_to_name[${args[networkconf_id]}]}.id"
-        echo "  radius_profile_id = local.${radius_profile_id_to_name[${args[radiusprofile_id]}]}.id"
+        if [ -n "${args[radiusprofile_id]}" ]; then
+            echo "  radius_profile_id = local.${radius_profile_id_to_name[${args[radiusprofile_id]}]}.id"
+        fi
         echo "  passphrase = var.unifi_wlan_${args[sanitized_name]}_passphrase"
         c_echo_ap_groups "${args[ap_group_ids]}"
+        echo ""
+        c_echo "bss_transition"       "  bss_transition            = %s"
+        c_echo "fast_roaming_enabled" "  fast_roaming_enabled      = %s"
+        c_echo "hide_ssid"            "  hide_ssid                 = %s"
+        c_echo "l2_isolation"         "  l2_isolation              = %s"
+        c_echo "mac_filter_enabled"   "  mac_filter_enabled        = %s"
+        c_echo_wlan_security_mac_address "${args[mac_filter_list]}"
+        c_echo "mac_filter_policy"    "  mac_filter_policy         = \"%s\""
+        c_echo "minrate_ng_data_rate" "  minimum_data_rate_2g_kbps = %s"
+        c_echo "minrate_na_data_rate" "  minimum_data_rate_5g_kbps = %s"
+        c_echo "mcastenhance_enabled" "  multicast_enhance         = %s"
+        c_echo "no2ghz_oui"           "  no2ghz_oui                = %s"
+        c_echo "pmf_mode"             "  pmf_mode                  = \"%s\""
+        c_echo "proxy_arp"            "  proxy_arp                 = %s"
+        c_echo "uapsd_enabled"        "  uapsd                     = %s"
+        c_echo "wlan_band"            "  wlan_band                 = \"%s\""
+        c_echo "wpa3_support"         "  wpa3_support              = %s"
+        c_echo "wpa3_transition"      "  wpa3_transition           = %s"
+        c_echo_wlan_schedules "${args[schedule_with_duration]}"
         echo "}"
         echo ""
     } >> unifi_wlans.tf
@@ -65,6 +104,8 @@ write_local() {
 main() {
     load_site_mappings
     load_user_group_mappings
+    load_user_mappings
+    load_device_mappings
     load_network_mappings
     load_ap_group_mappings
     load_radius_profile_mappings
@@ -92,7 +133,7 @@ main() {
         write_resource resource_args
         write_import resource_args
         write_local resource_args
-    done < <(read_json "$json_file_name")
+    done < <(read_json "$json_file_name" KEYS)
 
     echo "}" >> unifi_wlans_map.tf
 }

@@ -262,3 +262,69 @@ c_echo_ssh_keys() {
         echo "  }"
     done
 }
+
+c_echo_wlan_security_mac_address() {
+    local mac_addresses="$1"
+
+    if [ -z "$mac_addresses" ]; then
+        return
+    fi
+
+    echo "  mac_filter_list = ["
+
+    # Split the MAC addresses and store them in an array
+    IFS=',' read -ra MACS <<< "$mac_addresses"
+
+    # Create an array to hold the resource names, or macs if no resource name is available
+    local resource_names=()
+
+    # Populate the resource_names array
+    for mac in "${MACS[@]}"; do
+        local resource_id="${mac//:/_}"
+        # check to see if the resource_id is in the device_id_to_name array
+        if [ -n "${device_id_to_name[$resource_id]}" ]; then
+            resource_names+=("local.${device_id_to_name[$resource_id]}.mac")
+        elif [ -n "${user_id_to_name[$resource_id]}" ]; then
+            resource_names+=("local.${user_id_to_name[$resource_id]}.mac")
+        else
+            resource_names+=("\"$mac\"")
+        fi
+    done
+
+    # Sort the array alphabetically and case-insensitively
+    IFS=$'\n' sorted_resource_names=($(sort -f <<< "${resource_names[*]}"))
+    unset IFS
+
+    # Iterate over the sorted array and print each entry
+    for resource_name in "${sorted_resource_names[@]}"; do
+        echo "    $resource_name,"
+    done
+
+    echo "  ]"
+}
+
+# Helper function to conditionally echo wlan schedules
+c_echo_wlan_schedules() {
+    local wlan_schedules_json="$1"
+
+    echo "$wlan_schedules_json" | jq -c '.[]' | while read -r schedule; do
+        local duration_minutes=$(echo "$schedule" | jq -r '.duration_minutes // empty')
+        local name=$(echo "$schedule" | jq -r '.name // empty')
+        local start_days_of_week=$(echo "$schedule" | jq -r '.start_days_of_week[] // empty')
+        local start_hour=$(echo "$schedule" | jq -r '.start_hour // empty')
+        local start_minute=$(echo "$schedule" | jq -r '.start_minute // empty')
+
+        for day in $start_days_of_week; do
+            if [ -n "$duration_minutes" ] || [ -n "$name" ] || [ -n "$day" ] || [ -n "$start_hour" ] || [ -n "$start_minute" ]; then
+                echo ""
+                echo "  schedule {"
+                [ -n "$duration_minutes" ] && echo "    duration = $duration_minutes"
+                [ -n "$name" ] && echo             "    name = \"$name\""
+                [ -n "$day" ] && echo              "    day_of_week = \"$day\""
+                [ -n "$start_hour" ] && echo       "    start_hour = $start_hour"
+                [ -n "$start_minute" ] && echo     "    start_minute = $start_minute"
+                echo "  }"
+            fi
+        done
+    done
+}
