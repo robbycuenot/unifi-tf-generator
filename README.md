@@ -86,9 +86,11 @@ This directory is the heart of the repository, containing a suite of bash script
 ### Other Directories and Files
 - `/.devcontainer`: Contains container configurations for codespaces.
 - `/.github/workflows`: GitHub Actions workflow for generating TF code / PRs.
+- `/docs`: Reference architecture documents and sample terraform files
 - `/json`: Folder for normalized json data. Raw responses are in `/json/raw`. Json files themselves are excluded from commits via `.gitignore`.
 - `/log.txt`: Logs generated at runtime. Excluded via `.gitignore`.
 - `/providers.tf`: Terraform provider setup. Substitute organization and workspace name as needed for Terraform Cloud
+- `/tests`: For now, contains a basic docker container to serve raw json responses at endpoints that mirror a network controller. TODO: Add sample json
 - `/README.md`: This README file.
 
 ## Contributing
