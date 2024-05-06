@@ -52,7 +52,7 @@ write_resource() {
 
         echo "  security = \"${args[security]}\""
         echo "  user_group_id = local.${user_group_id_to_name[${args[usergroup_id]}]}.id"
-        echo "  is_guest = ${args[is_guest]}"
+        c_echo "is_guest" "  is_guest = %s"
         echo "  network_id = local.${network_id_to_name[${args[networkconf_id]}]}.id"
         if [ -n "${args[radiusprofile_id]}" ]; then
             echo "  radius_profile_id = local.${radius_profile_id_to_name[${args[radiusprofile_id]}]}.id"
