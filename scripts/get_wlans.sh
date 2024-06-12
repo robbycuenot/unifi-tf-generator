@@ -1,5 +1,3 @@
-#!/bin/bash
-
 readonly TYPE="wlans"
 readonly ENDPOINT="proxy/network/api/s/default/rest/wlanconf"
 readonly SORT_BY='.data | sort_by(._id)'

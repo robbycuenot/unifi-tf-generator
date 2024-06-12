@@ -1,5 +1,3 @@
-#!/bin/bash
-
 readonly TYPE="dynamic_dns"
 readonly ENDPOINT="proxy/network/api/s/default/rest/dynamicdns"
 readonly SORT_BY='.data | sort_by(._id)'

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Redirect stderr to both the console and log.txt, adding [ERROR] prefix
 exec 2> >(while read line; do echo "[ERROR] $line"; done | tee -a log.txt)
 

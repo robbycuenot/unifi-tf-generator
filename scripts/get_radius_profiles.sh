@@ -1,5 +1,3 @@
-#!/bin/bash
-
 readonly TYPE="radius_profiles"
 readonly ENDPOINT="proxy/network/api/s/default/rest/radiusprofile"
 readonly SORT_BY='.data | sort_by(._id)'

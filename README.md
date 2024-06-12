@@ -8,18 +8,32 @@ This repository facilitates the creation of a complete Terraform configuration f
 ### Prerequisites
 - A functioning Ubiquiti UniFi setup. Tested with UDM Pro, but should work for other controllers.
 - Basic understanding of bash, jq, and curl.
-- A linux environment with:
+- An environment with:
     - connectivity to the local Unifi controller endpoint
     - local unifi user account with `admin` access
         - NOTE: `viewer` access will allow creation of some resources, but will be unable to
                 access any sensitive fields such as controller SSH settings or radius auth settings.
                 Results may be inconsistent. For the moment, consider this unsupported.
-    - bash
+    - bash 4.0+
+        - Almost every major linux distribution ships with this, though the default may be something else (ksh, zsh). Run `bash` to enter the bash terminal, and `bash --version` to verify that you are on 4.0+
+        - Mac OS still ships with bash 3.2 as the default version. This is 10+ years out-of-date, and does not support associative arrays, which are used heavily in this project. The easiest way to correct for this is to install a newer version of bash with brew. This will not overwrite the default shell; the two exist in tandem.
+            ```bash
+            brew install bash
+            ```
+            Following this, you can launch the newer version of bash from a mac terminal with:
+            ```
+            /usr/local/Cellar/bash/*/bin/bash
+            ```
+            You will not need to replace the asterisk, assuming this is your first time installing bash with brew. All commands referenced throughout the rest of this guide will need to be executed in this bash shell.
     - curl
     - jq
         - For Ubuntu, this can be achieved with the following script:
           ```
           apt-get install -y jq
+          ```
+          For Mac OS, this can be achieved with the following script:
+          ```
+          brew install jq
           ```
     - utf-8 english language support (necessary for parsing some special characters)
         - For Ubuntu, this can be achieved with the following script:
@@ -30,6 +44,7 @@ This repository facilitates the creation of a complete Terraform configuration f
           LANGUAGE=en_US:en
           LC_ALL=en_US.UTF-8
           ```
+        - For Mac OS, this is enabled by default
 
 ### Installation and Setup
 
