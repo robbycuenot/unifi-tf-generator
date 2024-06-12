@@ -1,5 +1,3 @@
-#!/bin/bash
-
 readonly TYPE="firewall_groups"
 readonly ENDPOINT="proxy/network/api/s/default/rest/firewallgroup"
 readonly SORT_BY='.data | sort_by(._id)'

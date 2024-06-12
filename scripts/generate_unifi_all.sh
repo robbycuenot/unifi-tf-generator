@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Source the utility scripts
 source ./scripts/log_utils.sh
 

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 readonly TYPE="port_forward"
 readonly ENDPOINT="proxy/network/api/s/default/rest/portforward"
 readonly SORT_BY='.data | sort_by(._id)'

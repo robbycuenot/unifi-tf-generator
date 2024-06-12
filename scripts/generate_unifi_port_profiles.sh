@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Source the utility scripts
 source ./scripts/json_utils.sh
 source ./scripts/log_utils.sh
@@ -31,8 +29,14 @@ readonly KEYS=(
   "site_id"
   "speed"
   "stormctrl_bcast_enabled"
+  "stormctrl_bcast_level"
+  "stormctrl_bcast_rate"
   "stormctrl_mcast_enabled"
+  "stormctrl_mcast_level"
+  "stormctrl_mcast_rate"
   "stormctrl_ucast_enabled"
+  "stormctrl_ucast_level"
+  "stormctrl_ucast_rate"
   "stp_port_mode"
   "tagged_vlan_mgmt"
   "voice_networkconf_id"

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 readonly TYPE="devices"
 readonly ENDPOINT="proxy/network/v2/api/site/default/device"
 readonly SORT_BY='.network_devices | sort_by(.mac)'

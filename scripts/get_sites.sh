@@ -1,5 +1,3 @@
-#!/bin/bash
-
 readonly TYPE="sites"
 readonly ENDPOINT="proxy/network/v2/api/info"
 readonly SORT_BY='.sites | sort_by(.name)'

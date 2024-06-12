@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Source the utility scripts
 source ./scripts/json_utils.sh
 source ./scripts/log_utils.sh
@@ -22,6 +20,8 @@ readonly KEYS=(
   "note"
   "noted"
   "use_fixedip"
+  "virtual_network_override_enabled"
+  "virtual_network_override_id"
 )
 
 write_resource() {
@@ -30,6 +30,10 @@ write_resource() {
     local network_resource_name=""
     if [ -n "${args[network_id]}" ]; then
         network_resource_name="${network_id_to_name[${args[network_id]}]}"
+    fi
+
+    if [ -n "${args[virtual_network_override_id]}" ] && [ "${args[virtual_network_override_enabled]}" = "true" ]; then
+        network_override_name="${network_id_to_name[${args[virtual_network_override_id]}]}"
     fi
 
     {
@@ -47,6 +51,7 @@ write_resource() {
         fi
         [ "${args[local_dns_record_enabled]}" = "true" ] && [ -n "${args[local_dns_record]}" ] && echo "  local_dns_record = \"${args[local_dns_record]}\""
         [ "${args[fingerprint_override]}" = "true" ] && [ -n "${args[dev_id_override]}" ] && echo "  dev_id_override = ${args[dev_id_override]}"
+        [ -n "${args[virtual_network_override_id]}" ] && [ "${args[virtual_network_override_enabled]}" = "true" ] && echo "  # virtual_network_override_id = local.${network_override_name}.id"
         echo "  skip_forget_on_destroy = true"
         echo "  allow_existing = true"
         echo "}"
