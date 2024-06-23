@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="firewall_rules"
 readonly ENDPOINT="proxy/network/api/s/default/rest/firewallrule"
 readonly SORT_BY='.data | sort_by(._id)'

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 escape_quotes() {
     local string="$1"
     echo "${string//\"/\\\"}"

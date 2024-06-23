@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="ap_groups"
 readonly ENDPOINT="proxy/network/v2/api/site/default/apgroups"
 readonly SORT_BY='sort_by(._id)'

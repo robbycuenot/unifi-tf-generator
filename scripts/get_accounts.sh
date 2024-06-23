@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="accounts"
 readonly ENDPOINT="proxy/network/v2/api/site/default/radius/users"
 readonly SORT_BY='sort_by(._id)'

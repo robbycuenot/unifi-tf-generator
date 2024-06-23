@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="port_profiles"
 readonly ENDPOINT="proxy/network/api/s/default/rest/portconf"
 readonly SORT_BY='.data | sort_by(._id)'

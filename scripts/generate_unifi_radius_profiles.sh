@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Source the utility scripts
 source ./scripts/json_utils.sh
 source ./scripts/log_utils.sh

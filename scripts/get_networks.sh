@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="networks"
 readonly ENDPOINT="proxy/network/v2/api/site/default/lan/enriched-configuration"
 readonly SORT_BY='map(.configuration) | sort_by(.vlan)'

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="settings"
 readonly ENDPOINT="proxy/network/api/s/default/get/setting"
 readonly SORT_BY='.data | sort_by(._id)'

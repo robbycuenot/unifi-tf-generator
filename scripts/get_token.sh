@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+echo `which bash`
+echo `bash --version`
 source ./scripts/log_utils.sh
 
 # Initialize variables

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 source ./scripts/log_utils.sh
 
 fetch_raw_json() {
