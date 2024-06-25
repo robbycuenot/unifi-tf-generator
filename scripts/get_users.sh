@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="users"
 readonly ENDPOINT="proxy/network/api/s/default/list/user"
 readonly SORT_BY='.data | sort_by(.mac // "zzzzzzzzzzzz" | ascii_downcase)'

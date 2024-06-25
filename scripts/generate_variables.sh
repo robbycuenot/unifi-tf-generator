@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Gather variables from all unifi_*.tf files
 vars=$(grep -h -o -E 'var\.[a-zA-Z0-9_-]*' unifi_*.tf | sort | uniq | sed 's/var.//g')
 

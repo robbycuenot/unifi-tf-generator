@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Source the utility script
 source ./scripts/json_utils.sh
 source ./scripts/terraform_utils.sh

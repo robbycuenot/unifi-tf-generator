@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="user_groups"
 readonly ENDPOINT="proxy/network/api/s/default/rest/usergroup"
 readonly SORT_BY='.data | sort_by(._id)'

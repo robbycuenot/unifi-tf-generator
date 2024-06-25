@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 declare -A ap_group_id_to_name
 declare -A device_id_to_name
 declare -A firewall_group_id_to_name

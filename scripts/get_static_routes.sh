@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 readonly TYPE="static_routes"
 readonly ENDPOINT="proxy/network/api/s/default/rest/routing"
 readonly SORT_BY='.data | sort_by(._id)'
