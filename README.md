@@ -20,11 +20,17 @@ This repository facilitates the creation of a complete Terraform configuration f
             ```bash
             brew install bash
             ```
-            Following this, you can launch the newer version of bash from a mac terminal with:
+            After installing this newer version of bash, it should be added to your `PATH` automatically, and the scripts should automatically reference it. You can verify that you are on v4.0+ by running `bash --version`:
+
+            ```bash
+            GNU bash, version 5.2.26(1)-release (x86_64-apple-darwin23.2.0)
+            Copyright (C) 2022 Free Software Foundation, Inc.
+            License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+            This is free software; you are free to change and redistribute it.
+            There is NO WARRANTY, to the extent permitted by law.
             ```
-            /usr/local/Cellar/bash/*/bin/bash
-            ```
-            You will not need to replace the asterisk, assuming this is your first time installing bash with brew. All commands referenced throughout the rest of this guide will need to be executed in this bash shell.
+
     - curl
     - jq
         - For Ubuntu, this can be achieved with the following script:
